@@ -14,7 +14,7 @@ print_brackets(){
 tokenize(){
   for i in ${@} 
   do
-    echo $i
+#    echo $i
     token_type $i  
   done
 }
@@ -38,9 +38,10 @@ get_details_switch(){
 
 
 tokenize_switch_char(){
-  for i in ${1:1}
+  SWITCHES=${1:1}
+  for i in `seq ${#SWITCHES}`
   do
-    print_brackets `get_details_switch $i`
+     print_brackets `get_details_switch  ${1:$i:1}`
   done
 }
 
@@ -65,7 +66,7 @@ token_type(){
       ;;
     -*) tokenize_switch $1
       ;;
-     *) echo "PIPES" $PIPES "COMMAND_STACK" ${#COMMAND_STACK[@]}
+     *) #echo "PIPES" $PIPES "COMMAND_STACK" ${#COMMAND_STACK[@]}
         if [ ${PIPES} = ${#COMMAND_STACK[@]} ]; then
           COMMAND_STACK+=( $1 )        
           #echo "command"
@@ -80,5 +81,5 @@ token_type(){
 COMMAND_STACK=()
 PIPES=0
 tokenize $PARAMS
-echo $PIPES
-echo ${COMMAND_STACK[@]}
+#echo $PIPES
+#echo ${COMMAND_STACK[@]}
